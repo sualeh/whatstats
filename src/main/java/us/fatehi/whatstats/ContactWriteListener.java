@@ -53,7 +53,6 @@ public class ContactWriteListener implements ItemWriteListener<Message> {
 
   @Override
   public void onWriteError(final Exception exception, final List<? extends Message> messages) {
-    // No-op
     System.err.println(messages.stream().collect(mapping(Message::toString, joining("\n\n\t"))));
   }
 }
