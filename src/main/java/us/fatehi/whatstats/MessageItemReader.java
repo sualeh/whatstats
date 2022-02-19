@@ -33,7 +33,7 @@ public class MessageItemReader implements ResourceAwareItemReaderItemStream<Mess
     lineMapper = new MessageLineMapper(fileTimeZoneOffset);
 
     delegate = new FlatFileItemReader<String>();
-    delegate.setName("messageItemReader");
+    delegate.setName(MessageItemReader.class.getCanonicalName());
     delegate.setLineMapper((line, lineNumber) -> line);
 
     buffer = new StringBuilder();

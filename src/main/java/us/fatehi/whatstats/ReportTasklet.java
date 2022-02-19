@@ -2,6 +2,7 @@ package us.fatehi.whatstats;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -78,19 +79,20 @@ public class ReportTasklet implements Tasklet {
   @Override
   public RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext)
       throws Exception {
-
     for (final SqlReportDefinition reportDefinition : reportDefinitions) {
-
-      final List<Map<String, Object>> data = jdbcTemplate.queryForList(reportDefinition.getQuery());
-      writeCsvReport(
-          data, new OutputStreamWriter(reportDefinition.getWritableResource().getOutputStream()));
+      try (final Writer reportWriter =
+          new BufferedWriter(
+              new OutputStreamWriter(reportDefinition.getWritableResource().getOutputStream()))) {
+        final List<Map<String, Object>> data =
+            jdbcTemplate.queryForList(reportDefinition.getQuery());
+        writeCsvReport(data, reportWriter);
+      }
     }
 
     return RepeatStatus.FINISHED;
   }
 
   public void writeCsvReport(final List<Map<String, Object>> data, final Writer writer) {
-
     if (data == null || data.isEmpty()) {
       return;
     }

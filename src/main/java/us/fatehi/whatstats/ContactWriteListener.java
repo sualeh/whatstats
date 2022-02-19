@@ -1,11 +1,14 @@
 package us.fatehi.whatstats;
 
+import static java.lang.System.lineSeparator;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.mapping;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +19,8 @@ import us.fatehi.whatstats.repository.ContactRepository;
 
 @Configuration
 public class ContactWriteListener implements ItemWriteListener<Message> {
+
+  private static final Logger log = LoggerFactory.getLogger(ContactWriteListener.class);
 
   private final ContactRepository contactRepository;
 
@@ -32,7 +37,6 @@ public class ContactWriteListener implements ItemWriteListener<Message> {
   /** Look up or create contacts, so we do not have duplicates. */
   @Override
   public void beforeWrite(final List<? extends Message> messages) {
-
     if (messages == null || messages.isEmpty()) {
       return;
     }
@@ -53,6 +57,9 @@ public class ContactWriteListener implements ItemWriteListener<Message> {
 
   @Override
   public void onWriteError(final Exception exception, final List<? extends Message> messages) {
-    System.err.println(messages.stream().collect(mapping(Message::toString, joining("\n\n\t"))));
+    log.warn(
+        "Error writing batch"
+            + lineSeparator()
+            + messages.stream().collect(mapping(Message::toString, joining("\n\n\t"))));
   }
 }

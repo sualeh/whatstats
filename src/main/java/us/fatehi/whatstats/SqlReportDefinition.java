@@ -1,5 +1,7 @@
 package us.fatehi.whatstats;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.Serializable;
 
 import org.springframework.core.io.PathResource;
@@ -13,8 +15,8 @@ public class SqlReportDefinition implements Serializable {
   private final String query;
 
   public SqlReportDefinition(final String query, final String reportFile) {
-    this.query = query;
-    this.reportFile = reportFile;
+    this.query = requireNonNull(query);
+    this.reportFile = requireNonNull(reportFile);
   }
 
   public String getQuery() {

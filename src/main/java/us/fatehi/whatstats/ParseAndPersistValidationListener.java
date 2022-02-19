@@ -26,7 +26,6 @@ public class ParseAndPersistValidationListener extends StepExecutionListenerSupp
 
   @Override
   public ExitStatus afterStep(final StepExecution stepExecution) {
-
     final Long numMessages =
         jdbcTemplate.queryForObject(
             """

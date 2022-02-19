@@ -1,5 +1,6 @@
 package us.fatehi.whatstats;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.regex.Pattern.DOTALL;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -36,12 +37,11 @@ public class MessageLineMapper implements LineMapper<Message> {
   private final ZoneOffset fileTimeZoneOffset;
 
   public MessageLineMapper(final ZoneOffset fileTimeZoneOffset) {
-    this.fileTimeZoneOffset = fileTimeZoneOffset;
+    this.fileTimeZoneOffset = requireNonNull(fileTimeZoneOffset);
   }
 
   @Override
   public Message mapLine(final String line, final int lineNumber) throws Exception {
-
     if (line == null) {
       return null;
     }
@@ -86,7 +86,7 @@ public class MessageLineMapper implements LineMapper<Message> {
     if (message.equalsIgnoreCase("image omitted")) {
       return MessageType.image;
     }
-    if (message.replaceAll("\u200E", "").equalsIgnoreCase("video omitted")) {
+    if (message.equalsIgnoreCase("video omitted")) {
       return MessageType.video;
     }
     if (urlPattern.matcher(message).matches()) {
