@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +48,7 @@ public class ReportTasklet implements Tasklet {
   				ORDER BY
   				  NUM_MESSAGES DESC
           		""",
-              Paths.get("message_summary.csv")),
+              "message_summary.csv"),
           new SqlReportDefinition(
               """
 				SELECT
@@ -69,7 +68,7 @@ public class ReportTasklet implements Tasklet {
 				ORDER BY
 				  VALUE_ADDED DESC
               		""",
-              Paths.get("value_added.csv")));
+              "value_added.csv"));
 
   @Autowired
   public ReportTasklet(final JdbcTemplate jdbcTemplate) {
