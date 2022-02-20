@@ -17,13 +17,8 @@ import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
-@Configuration
-@Component
 public class ReportTasklet implements Tasklet {
 
   private static final Logger log = LoggerFactory.getLogger(ReportTasklet.class);
@@ -71,7 +66,6 @@ public class ReportTasklet implements Tasklet {
               		""",
               "value_added.csv"));
 
-  @Autowired
   public ReportTasklet(final JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }

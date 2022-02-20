@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.listener.StepExecutionListenerSupport;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ParseAndPersistValidationListener extends StepExecutionListenerSupport {
@@ -15,7 +14,6 @@ public class ParseAndPersistValidationListener extends StepExecutionListenerSupp
 
   private final JdbcTemplate jdbcTemplate;
 
-  @Autowired
   public ParseAndPersistValidationListener(final JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
