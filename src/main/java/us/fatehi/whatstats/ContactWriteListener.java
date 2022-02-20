@@ -10,21 +10,17 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemWriteListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
 import us.fatehi.whatstats.entity.Contact;
 import us.fatehi.whatstats.entity.Message;
 import us.fatehi.whatstats.repository.ContactRepository;
 
-@Configuration
 public class ContactWriteListener implements ItemWriteListener<Message> {
 
   private static final Logger log = LoggerFactory.getLogger(ContactWriteListener.class);
 
   private final ContactRepository contactRepository;
 
-  @Autowired
   public ContactWriteListener(final ContactRepository contactRepository) {
     this.contactRepository = requireNonNull(contactRepository);
   }
