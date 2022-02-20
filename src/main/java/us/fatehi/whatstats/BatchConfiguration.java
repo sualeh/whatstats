@@ -58,7 +58,9 @@ public class BatchConfiguration {
       final ItemReader<Message> reader,
       final ItemWriter<Message> writer,
       final ContactWriteListener contactWriteListener,
-      final ParseAndPersistValidationListener parseAndPersistValidationListener) {
+      final JdbcTemplate jdbcTemplate) {
+    final ParseAndPersistValidationListener parseAndPersistValidationListener =
+        new ParseAndPersistValidationListener(jdbcTemplate);
     return stepBuilderFactory
         .get("ParseAndPersistMessagesStep")
         .<Message, Message>chunk(10)
@@ -67,12 +69,6 @@ public class BatchConfiguration {
         .listener(contactWriteListener)
         .listener(parseAndPersistValidationListener)
         .build();
-  }
-
-  @Bean
-  public ParseAndPersistValidationListener parseAndPersistValidationListener(
-      final JdbcTemplate jdbcTemplate) {
-    return new ParseAndPersistValidationListener(jdbcTemplate);
   }
 
   @Bean
@@ -87,13 +83,9 @@ public class BatchConfiguration {
   }
 
   @Bean
-  public Step reportStep(final ReportTasklet reportTasklet) {
+  public Step reportStep(final JdbcTemplate jdbcTemplate) {
+    final ReportTasklet reportTasklet = new ReportTasklet(jdbcTemplate);
     return stepBuilderFactory.get("ReportStep").tasklet(reportTasklet).build();
-  }
-
-  @Bean
-  public ReportTasklet reportTasklet(final JdbcTemplate jdbcTemplate) {
-    return new ReportTasklet(jdbcTemplate);
   }
 
   @Bean
